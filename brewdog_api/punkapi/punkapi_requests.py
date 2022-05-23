@@ -3,7 +3,7 @@ import pydantic.error_wrappers
 import requests  # type: ignore
 import typing as _typing
 
-from apis.punkapi.config.punkapi_config import PunkApiSettings
+from brewdog_api.punkapi.config.punkapi_config import PunkApiSettings
 from lib.schemas.beer_schemas import FullBeerBase
 from lib.schemas.pydantic_schemas import Malt, Amount, Hops
 
@@ -77,7 +77,7 @@ def create_beer_obj(json_response: _typing.Dict) -> FullBeerBase:
 
 # The already defined api calls from the punkapi api
 def get_all_beers(api_settings: PunkApiSettings) -> _typing.List[FullBeerBase]:
-    path = api_settings.API_URL
+    path = api_settings.PUNKAPI_URL
 
     details = get_json_data_obj(path=path)
 
@@ -92,7 +92,7 @@ def get_all_beers(api_settings: PunkApiSettings) -> _typing.List[FullBeerBase]:
 
 
 def get_beer_by_id(api_settings: PunkApiSettings, beer_id: int) -> FullBeerBase:
-    path = "{}/{}".format(api_settings.API_URL, beer_id)
+    path = "{}/{}".format(api_settings.PUNKAPI_URL, beer_id)
 
     details = get_json_data_obj(path=path)
 
@@ -101,7 +101,7 @@ def get_beer_by_id(api_settings: PunkApiSettings, beer_id: int) -> FullBeerBase:
 
 
 def get_random_beer(api_settings: PunkApiSettings) -> FullBeerBase:
-    path = "{}/random".format(api_settings.API_URL)
+    path = "{}/random".format(api_settings.PUNKAPI_URL)
 
     details = get_json_data_obj(path=path)
 
