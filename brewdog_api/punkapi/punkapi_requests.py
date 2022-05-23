@@ -126,7 +126,7 @@ def get_beer_by_name(api_settings: PunkApiSettings, beer_name: str) -> FullBeerB
         )
 
 
-def get_beer_with_lower_abv(
+def get_beers_with_lower_abv(
     api_settings: PunkApiSettings, abv: float
 ) -> _typing.List[FullBeerBase]:
     all_beers = get_all_beers(api_settings=api_settings)
@@ -137,13 +137,13 @@ def get_beer_with_lower_abv(
             queried_beers.append(beer)
 
     if not queried_beers:
-        fastapi.HTTPException(
+        raise fastapi.HTTPException(
             status_code=404, detail="No beers found with abv <= {}".format(abv)
         )
     return queried_beers
 
 
-def get_beer_with_higher_abv(
+def get_beers_with_higher_abv(
     api_settings: PunkApiSettings, abv: float
 ) -> _typing.List[FullBeerBase]:
     all_beers = get_all_beers(api_settings=api_settings)
@@ -154,7 +154,7 @@ def get_beer_with_higher_abv(
             queried_beers.append(beer)
 
     if not queried_beers:
-        fastapi.HTTPException(
+        raise fastapi.HTTPException(
             status_code=404, detail="No beers found with abv >= {}".format(abv)
         )
     return queried_beers
@@ -177,7 +177,7 @@ def get_beers_with_hops(
             queried_beers.append(beer)
 
     if not queried_beers:
-        fastapi.HTTPException(
+        raise fastapi.HTTPException(
             status_code=404, detail="No beers found with hop {}".format(queried_hops)
         )
     return queried_beers
@@ -200,7 +200,25 @@ def get_beers_with_malt(
             queried_beers.append(beer)
 
     if not queried_beers:
-        fastapi.HTTPException(
+        raise fastapi.HTTPException(
             status_code=404, detail="No beers found with malt {}".format(queried_malt)
+        )
+    return queried_beers
+
+
+def get_beers_with_yeast(
+    api_settings: PunkApiSettings, queried_yeast: str
+) -> _typing.List[FullBeerBase]:
+    queried_yeast = queried_yeast.lower()
+    all_beers = get_all_beers(api_settings=api_settings)
+
+    queried_beers = []
+    for beer in all_beers:
+        if beer.ingredients.yeast.lower() == queried_yeast:
+            queried_beers.append(beer)
+
+    if not queried_beers:
+        raise fastapi.HTTPException(
+            status_code=404, detail="No beers found with yeast {}".format(queried_yeast)
         )
     return queried_beers
