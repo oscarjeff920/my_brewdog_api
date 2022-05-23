@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: name-tests-test
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        args: ["--config-file=setup.cfg"]
+        language: python
+        types: [python]
+      - id: black
+        name: black
+        entry: black
+        language: python
+        types: [python]
